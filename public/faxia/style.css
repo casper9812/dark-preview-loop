@@ -1,12 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap");
+
+:root {
+  --font-display: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk", "Helvetica Neue", Archivo, Helvetica, sans-serif;
+  --font-din: "DIN Next LT Pro", "DIN Pro", "DIN Alternate", "Barlow Semi Condensed", Archivo, sans-serif;
+}
 
 body {
   margin: 0;
-  background-color: #1a1a1a;
+  background-color: #101010;
   color: #ffffffdd;
   position: relative;
   overflow: hidden;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-din);
 }
 
 .indicator {
@@ -14,9 +19,10 @@ body {
   left: 0;
   right: 0;
   top: 0;
-  height: 5px;
+  height: 2px;
   z-index: 60;
-  background-color: #75aadb;
+  background-color: transparent;
+  pointer-events: none;
 }
 
 nav {
@@ -37,14 +43,8 @@ nav > div {
   align-items: center;
   text-transform: uppercase;
   font-size: 14px;
-}
-
-nav > div:first-child {
+  letter-spacing: 0.12em;
   gap: 10px;
-}
-
-nav > div:last-child {
-  gap: 24px;
 }
 
 nav svg,
@@ -57,28 +57,21 @@ nav p {
   margin: 0;
 }
 
-.active {
-  position: relative;
-}
-
-.active::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 99px;
-  background-color: #75aadb;
-}
-
 .card {
   position: absolute;
   left: 0;
   top: 0;
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #0d0d0d;
   box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.card.is-active {
+  background-size: contain;
+  cursor: default;
 }
 
 .card-content {
@@ -87,6 +80,7 @@ nav p {
   top: 0;
   color: #ffffffdd;
   padding-left: 16px;
+  cursor: pointer;
 }
 
 .content-start {
@@ -100,13 +94,15 @@ nav p {
   margin-top: 6px;
   font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.08em;
 }
 
 .content-title-1,
 .content-title-2 {
-  font-family: "Oswald", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
 .details {
@@ -125,6 +121,7 @@ nav p {
   padding-top: 16px;
   font-size: 20px;
   position: relative;
+  letter-spacing: 0.06em;
 }
 
 .place-box .text:before {
@@ -147,15 +144,17 @@ nav p {
 
 .title-1,
 .title-2 {
-  font-family: "Oswald", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 800;
   font-size: 72px;
+  letter-spacing: -0.02em;
 }
 
 .desc {
   width: 500px;
+  max-width: 80vw;
   margin-top: 16px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -166,37 +165,26 @@ nav p {
   align-items: center;
 }
 
-.bookmark {
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: 99px;
-  background-color: #75aadb;
-  color: white;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-
-.bookmark svg {
-  width: 20px;
-  height: 20px;
-}
-
 .discover {
   border: 1px solid #ffffff;
   background: transparent;
-  height: 36px;
+  height: 40px;
   border-radius: 99px;
   color: #ffffff;
-  padding: 4px 24px;
+  padding: 4px 26px;
   font-size: 12px;
-  margin-left: 16px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.discover:hover {
+  background-color: #ffffff;
+  color: #101010;
 }
 
 .pagination {
@@ -204,6 +192,7 @@ nav p {
   left: 0px;
   top: 0px;
   display: inline-flex;
+  align-items: center;
 }
 
 .arrow {
@@ -214,6 +203,12 @@ nav p {
   display: grid;
   place-items: center;
   z-index: 60;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.arrow:hover {
+  border-color: #ffffff;
 }
 
 .arrow-right {
@@ -227,45 +222,32 @@ nav p {
   color: #ffffff99;
 }
 
-.progress-sub-container {
-  margin-left: 24px;
-  width: 500px;
-  height: 50px;
-  display: flex;
+.dots {
+  display: inline-flex;
   align-items: center;
+  gap: 10px;
+  margin-left: 28px;
   z-index: 60;
 }
 
-.progress-sub-background {
-  width: 500px;
+.dot {
+  width: 30px;
   height: 3px;
-  background-color: #ffffff33;
+  border-radius: 99px;
+  background-color: #ffffff40;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.25s ease, width 0.25s ease;
 }
 
-.progress-sub-foreground {
-  height: 3px;
-  background-color: #75aadb;
+.dot:hover {
+  background-color: #ffffff99;
 }
 
-.slide-numbers {
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
-  z-index: 60;
-}
-
-.item {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: grid;
-  place-items: center;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
+.dot.is-current {
+  background-color: #ffffff;
+  width: 46px;
 }
 
 .cover {
