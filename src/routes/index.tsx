@@ -280,14 +280,16 @@ function Index() {
           proceso claro hasta que vuelvas a moverte sin límites.
         </p>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="rounded-2xl border border-border p-7">
-              <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary">
-                <Icon className="h-5 w-5" />
+          {pillars.map(({ icon: Icon, title, desc }, i) => (
+            <Reveal key={title} delay={i * 120}>
+              <div className="h-full rounded-2xl border border-border p-7 transition-all duration-300 hover:-translate-y-2 hover:border-foreground/40 hover:shadow-[0_24px_50px_-30px_rgba(0,0,0,0.4)]">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-8 text-lg font-semibold leading-snug">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               </div>
-              <h3 className="mt-8 text-lg font-semibold leading-snug">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -302,22 +304,24 @@ function Index() {
           comprometidos con devolverte movilidad, fuerza y confianza.
         </p>
         <div className="mt-16 grid gap-8 md:grid-cols-2">
-          {team.map((m) => (
-            <article key={m.name} className="overflow-hidden rounded-3xl border border-border">
-              <img
-                src={m.image}
-                alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
-                loading="lazy"
-                className="h-[420px] w-full object-cover sm:h-[520px]"
-              />
-              <div className="p-8">
-                <h3 className="text-2xl font-bold tracking-tight">{m.name}</h3>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {m.role}
-                </p>
-                <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{m.desc}</p>
-              </div>
-            </article>
+          {team.map((m, i) => (
+            <Reveal key={m.name} delay={i * 150}>
+              <article className="group overflow-hidden rounded-3xl border border-border transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)]">
+                <img
+                  src={m.image}
+                  alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
+                  loading="lazy"
+                  className="h-auto w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold tracking-tight">{m.name}</h3>
+                  <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    {m.role}
+                  </p>
+                  <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{m.desc}</p>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </section>
