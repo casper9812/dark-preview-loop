@@ -472,7 +472,8 @@ function Index() {
               Cómo llegar
             </a>
           </div>
-          <div className="overflow-hidden rounded-3xl border border-border shadow-[0_30px_80px_-50px_rgba(0,0,0,0.5)]">
+          <Reveal delay={150}>
+          <div className="overflow-hidden rounded-3xl border border-border shadow-[0_30px_80px_-50px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-2">
             <iframe
               title="Mapa de FAXIA Fisioterapia"
               loading="lazy"
@@ -480,6 +481,7 @@ function Index() {
               src="https://www.google.com/maps?q=Av.%20de%20las%20Aves%20229,%20Villas%20de%20Pachuca,%2042083%20Pachuca%20de%20Soto,%20Hgo.&output=embed"
             />
           </div>
+          </Reveal>
         </div>
       </section>
 
@@ -537,7 +539,8 @@ function Index() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-primary-foreground/15 p-9">
+            <Reveal delay={150}>
+            <div className="rounded-3xl border border-primary-foreground/15 p-9 transition-all duration-300 hover:-translate-y-2 hover:border-primary-foreground/35">
               <Logo inverted />
               <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.35em] text-primary-foreground/60">
                 Fisioterapia
