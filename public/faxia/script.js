@@ -67,7 +67,7 @@ let resizeTimer;
 
 const getCard = (index) => `#card${index}`;
 const getCardContent = (index) => `#card-content-${index}`;
-const getSliderItem = (index) => `#slide-item-${index}`;
+
 const _ = (id) => document.getElementById(id);
 const set = gsap.set;
 
@@ -109,7 +109,6 @@ function init() {
   gsap.set(`${detailsInactive} .title-2`, { y: 100 });
   gsap.set(`${detailsInactive} .desc`, { y: 50 });
   gsap.set(`${detailsInactive} .cta`, { y: 60 });
-  gsap.set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
   gsap.set(".indicator", { x: -window.innerWidth });
 
   rest.forEach((i, index) => {
@@ -126,7 +125,6 @@ function init() {
       zIndex: 40,
       y: offsetTop + cardHeight - 100,
     });
-    gsap.set(getSliderItem(i), { x: (index + 1) * numberSize });
   });
 
   const startDelay = 0.6;
@@ -197,9 +195,6 @@ function step() {
       ease,
     });
 
-    gsap.to(getSliderItem(active), { x: 0, ease });
-    gsap.to(getSliderItem(prv), { x: -numberSize, ease });
-    gsap.to(".progress-sub-foreground", {
       width: 500 * (1 / order.length) * (active + 1),
       ease,
     });
@@ -228,7 +223,6 @@ function step() {
           opacity: 1,
           zIndex: 40,
         });
-        gsap.set(getSliderItem(prv), { x: rest.length * numberSize });
         gsap.set(detailsInactive, { opacity: 0 });
         gsap.set(`${detailsInactive} .text`, { y: 100 });
         gsap.set(`${detailsInactive} .title-1`, { y: 100 });
@@ -268,7 +262,6 @@ function step() {
         ease,
         delay: 0.1 * (index + 1),
       });
-      gsap.to(getSliderItem(i), { x: (index + 1) * numberSize, ease });
     });
 
     gsap.to(`${detailsActive} .text`, { y: 0, delay: 0.1, duration: 0.7, ease });
@@ -345,8 +338,6 @@ const cardContents = data
   .join("");
 
 _("demo").innerHTML = cards + cardContents;
-_("slide-numbers").innerHTML = data
-  .map((_i, index) => `<div class="item" id="slide-item-${index}">${index + 1}</div>`)
   .join("");
 
 async function start() {
