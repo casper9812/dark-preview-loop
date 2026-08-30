@@ -1,3 +1,4 @@
+import { useEffect, useRef, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Activity,
@@ -164,6 +165,38 @@ function Badge({ children }: { children: string }) {
   );
 }
 
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          el.classList.add("is-visible");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`reveal ${className}`} style={{ animationDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
 function Logo({ inverted = false }: { inverted?: boolean }) {
   return (
     <span
@@ -247,14 +280,16 @@ function Index() {
           proceso claro hasta que vuelvas a moverte sin límites.
         </p>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="rounded-2xl border border-border p-7">
-              <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary">
-                <Icon className="h-5 w-5" />
+          {pillars.map(({ icon: Icon, title, desc }, i) => (
+            <Reveal key={title} delay={i * 120}>
+              <div className="h-full rounded-2xl border border-border p-7 transition-all duration-300 hover:-translate-y-2 hover:border-foreground/40 hover:shadow-[0_24px_50px_-30px_rgba(0,0,0,0.4)]">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-8 text-lg font-semibold leading-snug">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               </div>
-              <h3 className="mt-8 text-lg font-semibold leading-snug">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -269,22 +304,24 @@ function Index() {
           comprometidos con devolverte movilidad, fuerza y confianza.
         </p>
         <div className="mt-16 grid gap-8 md:grid-cols-2">
-          {team.map((m) => (
-            <article key={m.name} className="overflow-hidden rounded-3xl border border-border">
-              <img
-                src={m.image}
-                alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
-                loading="lazy"
-                className="h-[420px] w-full object-cover sm:h-[520px]"
-              />
-              <div className="p-8">
-                <h3 className="text-2xl font-bold tracking-tight">{m.name}</h3>
-                <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  {m.role}
-                </p>
-                <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{m.desc}</p>
-              </div>
-            </article>
+          {team.map((m, i) => (
+            <Reveal key={m.name} delay={i * 150}>
+              <article className="group overflow-hidden rounded-3xl border border-border transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)]">
+                <img
+                  src={m.image}
+                  alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
+                  loading="lazy"
+                  className="h-auto w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold tracking-tight">{m.name}</h3>
+                  <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    {m.role}
+                  </p>
+                  <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{m.desc}</p>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -297,13 +334,13 @@ function Index() {
             Una inversión a tu medida.
           </h2>
           <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {plans.map((p) => (
+            {plans.map((p, i) => (
+              <Reveal key={p.title} delay={i * 120}>
               <div
-                key={p.title}
-                className={`rounded-3xl border p-8 ${
+                className={`h-full rounded-3xl border p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)] ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background"
+                    : "border-border bg-background hover:border-foreground/40"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -360,6 +397,7 @@ function Index() {
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -378,35 +416,37 @@ function Index() {
             rel="noopener"
             className="mt-10 inline-flex items-center gap-3 rounded-full border border-border px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:bg-secondary"
           >
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            <Star className="h-4 w-4 fill-foreground text-foreground" />
             Ver opiniones en Google
           </a>
         </div>
-        <div className="mt-14 flex snap-x gap-6 overflow-x-auto px-6 pb-6">
-          {reviews.map((r) => (
-            <figure
-              key={r.name}
-              className="flex min-w-[300px] max-w-[340px] shrink-0 snap-start flex-col justify-between rounded-3xl border border-border p-7"
-            >
-              <div>
-                <Quote className="h-6 w-6 text-muted-foreground/50" />
-                <div className="mt-5 flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                  ))}
+        <div className="marquee-paused mt-14 overflow-hidden pb-6 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <div className="animate-marquee flex w-max gap-6 px-6">
+            {[...reviews, ...reviews].map((r, idx) => (
+              <figure
+                key={`${r.name}-${idx}`}
+                className="flex w-[300px] shrink-0 flex-col justify-between rounded-3xl border border-border p-7 transition-colors duration-300 hover:border-foreground/40 sm:w-[340px]"
+              >
+                <div>
+                  <Quote className="h-6 w-6 text-muted-foreground/50" />
+                  <div className="mt-5 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3.5 w-3.5 fill-foreground text-foreground" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                    {r.text}
+                  </blockquote>
                 </div>
-                <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                  {r.text}
-                </blockquote>
-              </div>
-              <figcaption className="mt-8 border-t border-border pt-5">
-                <p className="text-sm font-semibold">{r.name}</p>
-                <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Reseña en Google · {r.when}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
+                <figcaption className="mt-8 border-t border-border pt-5">
+                  <p className="text-sm font-semibold">{r.name}</p>
+                  <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Reseña en Google · {r.when}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -432,7 +472,8 @@ function Index() {
               Cómo llegar
             </a>
           </div>
-          <div className="overflow-hidden rounded-3xl border border-border shadow-[0_30px_80px_-50px_rgba(0,0,0,0.5)]">
+          <Reveal delay={150}>
+          <div className="overflow-hidden rounded-3xl border border-border shadow-[0_30px_80px_-50px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-2">
             <iframe
               title="Mapa de FAXIA Fisioterapia"
               loading="lazy"
@@ -440,6 +481,7 @@ function Index() {
               src="https://www.google.com/maps?q=Av.%20de%20las%20Aves%20229,%20Villas%20de%20Pachuca,%2042083%20Pachuca%20de%20Soto,%20Hgo.&output=embed"
             />
           </div>
+          </Reveal>
         </div>
       </section>
 
@@ -497,7 +539,8 @@ function Index() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-primary-foreground/15 p-9">
+            <Reveal delay={150}>
+            <div className="rounded-3xl border border-primary-foreground/15 p-9 transition-all duration-300 hover:-translate-y-2 hover:border-primary-foreground/35">
               <Logo inverted />
               <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.35em] text-primary-foreground/60">
                 Fisioterapia
@@ -521,6 +564,7 @@ function Index() {
                 ))}
               </dl>
             </div>
+            </Reveal>
           </div>
 
           <div className="mt-20 border-t border-primary-foreground/15 pt-16">
