@@ -416,35 +416,37 @@ function Index() {
             rel="noopener"
             className="mt-10 inline-flex items-center gap-3 rounded-full border border-border px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:bg-secondary"
           >
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            <Star className="h-4 w-4 fill-foreground text-foreground" />
             Ver opiniones en Google
           </a>
         </div>
-        <div className="mt-14 flex snap-x gap-6 overflow-x-auto px-6 pb-6">
-          {reviews.map((r) => (
-            <figure
-              key={r.name}
-              className="flex min-w-[300px] max-w-[340px] shrink-0 snap-start flex-col justify-between rounded-3xl border border-border p-7"
-            >
-              <div>
-                <Quote className="h-6 w-6 text-muted-foreground/50" />
-                <div className="mt-5 flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                  ))}
+        <div className="marquee-paused mt-14 overflow-hidden pb-6 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <div className="animate-marquee flex w-max gap-6 px-6">
+            {[...reviews, ...reviews].map((r, idx) => (
+              <figure
+                key={`${r.name}-${idx}`}
+                className="flex w-[300px] shrink-0 flex-col justify-between rounded-3xl border border-border p-7 transition-colors duration-300 hover:border-foreground/40 sm:w-[340px]"
+              >
+                <div>
+                  <Quote className="h-6 w-6 text-muted-foreground/50" />
+                  <div className="mt-5 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3.5 w-3.5 fill-foreground text-foreground" />
+                    ))}
+                  </div>
+                  <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                    {r.text}
+                  </blockquote>
                 </div>
-                <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                  {r.text}
-                </blockquote>
-              </div>
-              <figcaption className="mt-8 border-t border-border pt-5">
-                <p className="text-sm font-semibold">{r.name}</p>
-                <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Reseña en Google · {r.when}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
+                <figcaption className="mt-8 border-t border-border pt-5">
+                  <p className="text-sm font-semibold">{r.name}</p>
+                  <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Reseña en Google · {r.when}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
