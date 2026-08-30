@@ -334,13 +334,13 @@ function Index() {
             Una inversión a tu medida.
           </h2>
           <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {plans.map((p) => (
+            {plans.map((p, i) => (
+              <Reveal key={p.title} delay={i * 120}>
               <div
-                key={p.title}
-                className={`rounded-3xl border p-8 ${
+                className={`h-full rounded-3xl border p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)] ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background"
+                    : "border-border bg-background hover:border-foreground/40"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -397,6 +397,7 @@ function Index() {
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
