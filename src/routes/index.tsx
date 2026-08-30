@@ -564,6 +564,7 @@ function Index() {
                 ))}
               </dl>
             </div>
+            </Reveal>
           </div>
 
           <div className="mt-20 border-t border-primary-foreground/15 pt-16">
