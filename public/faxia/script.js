@@ -51,25 +51,25 @@ const data = [
   },
 ];
 
-let order = [0, 1, 2, 3, 4, 5];
+let order = data.map((_, i) => i);
 let detailsEven = true;
 let offsetTop = 200;
 let offsetLeft = 700;
 let cardWidth = 200;
 let cardHeight = 300;
 let gap = 40;
-let numberSize = 50;
 const ease = "sine.inOut";
-let clicks = 0;
+let queued = 0;
 let transitioning = false;
 let pendingRelayout = false;
 let resizeTimer;
+let loopTween = null;
+let autoplay = true;
 
 const getCard = (index) => `#card${index}`;
 const getCardContent = (index) => `#card-content-${index}`;
 
 const _ = (id) => document.getElementById(id);
-const set = gsap.set;
 
 function loadImage(src) {
   return new Promise((resolve, reject) => {
@@ -86,8 +86,49 @@ function loadImages() {
 
 function animate(target, duration, properties) {
   return new Promise((resolve) => {
-    gsap.to(target, { ...properties, duration, onComplete: resolve });
+    loopTween = gsap.to(target, { ...properties, duration, onComplete: resolve });
   });
+}
+
+function markActiveCard() {
+  data.forEach((_, i) => {
+    const el = document.querySelector(getCard(i));
+    if (el) el.classList.toggle("is-active", i === order[0]);
+  });
+  document.querySelectorAll(".dot").forEach((dot, i) => {
+    dot.classList.toggle("is-current", i === order[0]);
+  });
+}
+
+function buildDots() {
+  _("dots").innerHTML = data
+    .map((d, i) => `<button class="dot" type="button" aria-label="Ver ${d.place}" data-index="${i}"></button>`)
+    .join("");
+  _("dots").querySelectorAll(".dot").forEach((dot) => {
+    dot.addEventListener("click", () => goTo(Number(dot.dataset.index)));
+  });
+}
+
+function goTo(index) {
+  const current = order.indexOf(index);
+  if (current <= 0) return;
+  autoplay = false;
+  restartIndicator();
+  queued += current;
+  if (!transitioning) step();
+}
+
+function next() {
+  goTo(order[1]);
+}
+
+function prev() {
+  goTo(order[order.length - 1]);
+}
+
+function restartIndicator() {
+  if (loopTween) loopTween.kill();
+  gsap.set(".indicator", { x: -window.innerWidth });
 }
 
 function init() {
@@ -127,32 +168,22 @@ function init() {
     });
   });
 
+  markActiveCard();
+
   const startDelay = 0.6;
 
   gsap.to(".cover", {
-    x: width + 400,
+    x: window.innerWidth + 400,
     delay: 0.5,
     ease,
     onComplete: () => {
-      setTimeout(() => {
-        loop();
-      }, 500);
+      setTimeout(loop, 900);
     },
   });
 
   rest.forEach((i, index) => {
-    gsap.to(getCard(i), {
-      x: offsetLeft + index * (cardWidth + gap),
-      delay: 0.05 * index,
-      ease,
-      delay: startDelay,
-    });
-    gsap.to(getCardContent(i), {
-      x: offsetLeft + index * (cardWidth + gap),
-      delay: 0.05 * index,
-      ease,
-      delay: startDelay,
-    });
+    gsap.to(getCard(i), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay });
+    gsap.to(getCardContent(i), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay });
   });
 
   gsap.to("#pagination", { y: 0, opacity: 1, ease, delay: startDelay });
@@ -160,7 +191,6 @@ function init() {
   gsap.to(detailsActive, { opacity: 1, x: 0, ease, delay: startDelay });
 
   window.addEventListener("resize", onResize);
-  window.addEventListener("load", onResize);
 }
 
 function step() {
@@ -184,18 +214,16 @@ function step() {
     const [active, ...rest] = order;
     const prv = rest[rest.length - 1];
 
+    markActiveCard();
+
     gsap.set(getCard(prv), { zIndex: 10 });
     gsap.set(getCard(active), { zIndex: 20 });
-    gsap.to(getCard(prv), { scale: 1.5, ease });
+    gsap.to(getCard(prv), { scale: 1.5, ease, duration: 1.2 });
 
     gsap.to(getCardContent(active), {
       y: offsetTop + cardHeight - 10,
       opacity: 0,
-      duration: 0.3,
-      ease,
-    });
-
-      width: 500 * (1 / order.length) * (active + 1),
+      duration: 0.4,
       ease,
     });
 
@@ -206,6 +234,7 @@ function step() {
       height: "100vh",
       borderRadius: 0,
       ease,
+      duration: 1.2,
       onComplete: () => {
         const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
         gsap.set(getCard(prv), {
@@ -236,9 +265,12 @@ function step() {
           relayout();
         }
 
-        clicks -= 1;
-        if (clicks > 0) {
+        if (queued > 0) queued -= 1;
+        if (queued > 0) {
           step();
+        } else if (!autoplay) {
+          autoplay = true;
+          loop();
         }
       },
     });
@@ -252,6 +284,7 @@ function step() {
         width: cardWidth,
         height: cardHeight,
         ease,
+        duration: 1,
         delay: 0.1 * (index + 1),
       });
       gsap.to(getCardContent(i), {
@@ -260,18 +293,19 @@ function step() {
         opacity: 1,
         zIndex: 40,
         ease,
+        duration: 1,
         delay: 0.1 * (index + 1),
       });
     });
 
-    gsap.to(`${detailsActive} .text`, { y: 0, delay: 0.1, duration: 0.7, ease });
-    gsap.to(`${detailsActive} .title-1`, { y: 0, delay: 0.15, duration: 0.7, ease });
-    gsap.to(`${detailsActive} .title-2`, { y: 0, delay: 0.15, duration: 0.7, ease });
-    gsap.to(`${detailsActive} .desc`, { y: 0, delay: 0.3, duration: 0.4, ease });
+    gsap.to(`${detailsActive} .text`, { y: 0, delay: 0.1, duration: 0.9, ease });
+    gsap.to(`${detailsActive} .title-1`, { y: 0, delay: 0.15, duration: 0.9, ease });
+    gsap.to(`${detailsActive} .title-2`, { y: 0, delay: 0.15, duration: 0.9, ease });
+    gsap.to(`${detailsActive} .desc`, { y: 0, delay: 0.35, duration: 0.6, ease });
     gsap.to(`${detailsActive} .cta`, {
       y: 0,
-      delay: 0.35,
-      duration: 0.4,
+      delay: 0.45,
+      duration: 0.6,
       ease,
       onComplete: resolve,
     });
@@ -279,9 +313,12 @@ function step() {
 }
 
 async function loop() {
-  await animate(".indicator", 2, { x: 0 });
-  await animate(".indicator", 0.8, { x: window.innerWidth, delay: 0.3 });
-  set(".indicator", { x: -window.innerWidth });
+  if (!autoplay) return;
+  await animate(".indicator", 5.5, { x: 0 });
+  if (!autoplay) return;
+  await animate(".indicator", 1.2, { x: window.innerWidth, delay: 0.6 });
+  if (!autoplay) return;
+  gsap.set(".indicator", { x: -window.innerWidth });
   await step();
   loop();
 }
@@ -322,13 +359,13 @@ function onResize() {
 const cards = data
   .map(
     (i, index) =>
-      `<div class="card" id="card${index}" style="background-image:url(${i.image})"></div>`,
+      `<div class="card" id="card${index}" data-index="${index}" role="button" tabindex="0" aria-label="Ver ${i.place}" style="background-image:url(${i.image})"></div>`,
   )
   .join("");
 
 const cardContents = data
   .map(
-    (i, index) => `<div class="card-content" id="card-content-${index}">
+    (i, index) => `<div class="card-content" id="card-content-${index}" data-index="${index}">
       <div class="content-start"></div>
       <div class="content-place">${i.place}</div>
       <div class="content-title-1">${i.title}</div>
@@ -338,7 +375,16 @@ const cardContents = data
   .join("");
 
 _("demo").innerHTML = cards + cardContents;
-  .join("");
+
+buildDots();
+
+document.querySelectorAll("[data-index]").forEach((el) => {
+  if (el.classList.contains("dot")) return;
+  el.addEventListener("click", () => goTo(Number(el.dataset.index)));
+});
+
+document.querySelector(".arrow-right").addEventListener("click", next);
+document.querySelector(".arrow-left").addEventListener("click", prev);
 
 async function start() {
   try {
