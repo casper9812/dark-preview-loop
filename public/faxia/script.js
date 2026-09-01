@@ -131,16 +131,23 @@ function restartIndicator() {
   gsap.set(".indicator", { x: -window.innerWidth });
 }
 
+function computeLayout() {
+  const { innerWidth: width, innerHeight: height } = window;
+  const n = data.length - 1;
+  gap = 24;
+  cardWidth = Math.max(84, Math.min(190, Math.floor((width - 100 - (n - 1) * gap) / n)));
+  cardHeight = Math.round(cardWidth * 1.4);
+  offsetLeft = width - 40 - n * cardWidth - (n - 1) * gap;
+  offsetTop = height - cardHeight - 48;
+}
+
 function init() {
   const [active, ...rest] = order;
   const detailsActive = detailsEven ? "#details-even" : "#details-odd";
   const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
-  const { innerHeight: height, innerWidth: width } = window;
-  offsetTop = height - 430;
-  offsetLeft = width - 830;
+  computeLayout();
 
-  gsap.set("#pagination", { top: offsetTop + 330, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-  gsap.set("nav", { y: -200, opacity: 0 });
+  gsap.set("#pagination", { top: offsetTop + cardHeight + 24, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
   gsap.set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100vh" });
   gsap.set(getCardContent(active), { x: 0, y: 0, opacity: 0 });
   gsap.set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
@@ -187,7 +194,6 @@ function init() {
   });
 
   gsap.to("#pagination", { y: 0, opacity: 1, ease, delay: startDelay });
-  gsap.to("nav", { y: 0, opacity: 1, ease, delay: startDelay });
   gsap.to(detailsActive, { opacity: 1, x: 0, ease, delay: startDelay });
 
   window.addEventListener("resize", onResize);
@@ -328,8 +334,7 @@ function relayout() {
     pendingRelayout = true;
     return;
   }
-  offsetTop = window.innerHeight - 430;
-  offsetLeft = window.innerWidth - 830;
+  computeLayout();
   const [active, ...rest] = order;
 
   gsap.set(getCard(active), {
@@ -347,7 +352,7 @@ function relayout() {
     gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - 100 });
   });
 
-  gsap.set("#pagination", { top: offsetTop + 330, left: offsetLeft });
+  gsap.set("#pagination", { top: offsetTop + cardHeight + 24, left: offsetLeft });
   gsap.set(".cover", { x: window.innerWidth + 400 });
 }
 
@@ -359,7 +364,7 @@ function onResize() {
 const cards = data
   .map(
     (i, index) =>
-      `<div class="card" id="card${index}" data-index="${index}" role="button" tabindex="0" aria-label="Ver ${i.place}" style="background-image:url(${i.image})"></div>`,
+      `<div class="card" id="card${index}" data-index="${index}" role="button" tabindex="0" aria-label="Ver ${i.place}"><div class="card-fill" style="background-image:url(${i.image})"></div><div class="card-img" style="background-image:url(${i.image})"></div></div>`,
   )
   .join("");
 
