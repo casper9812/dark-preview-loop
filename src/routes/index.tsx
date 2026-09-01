@@ -19,6 +19,7 @@ import {
 
 import teamXimena from "@/assets/WhatsApp_Image_2026-08-26_at_21.37.34_1.jpeg.asset.json";
 import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.asset.json";
+import { FaxiaMap } from "@/components/FaxiaMap";
 
 const INSTAGRAM = "https://www.instagram.com/faxia.salud/";
 const FACEBOOK = "https://www.facebook.com/faxia.salud";
@@ -473,14 +474,7 @@ function Index() {
             </a>
           </div>
           <Reveal delay={150}>
-          <div className="overflow-hidden rounded-3xl border border-border shadow-[0_30px_80px_-50px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:-translate-y-2">
-            <iframe
-              title="Mapa de FAXIA Fisioterapia"
-              loading="lazy"
-              className="h-[420px] w-full border-0 sm:h-[520px]"
-              src="https://www.google.com/maps?q=Av.%20de%20las%20Aves%20229,%20Villas%20de%20Pachuca,%2042083%20Pachuca%20de%20Soto,%20Hgo.&output=embed"
-            />
-          </div>
+            <FaxiaMap />
           </Reveal>
         </div>
       </section>
