@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-display: "Neue Haas Grotesk Display Pro", "Neue Haas Grotesk", "Helvetica Neue", Archivo, Helvetica, sans-serif;
+  --font-sans: "DIN Next LT Pro", "DIN Pro", "DIN Alternate", "Barlow Semi Condensed", Archivo, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

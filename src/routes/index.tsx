@@ -416,7 +416,7 @@ function Index() {
             rel="noopener"
             className="mt-10 inline-flex items-center gap-3 rounded-full border border-border px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:bg-secondary"
           >
-            <Star className="h-4 w-4 fill-foreground text-foreground" />
+            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
             Ver opiniones en Google
           </a>
         </div>
@@ -431,7 +431,7 @@ function Index() {
                   <Quote className="h-6 w-6 text-muted-foreground/50" />
                   <div className="mt-5 flex gap-1">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-foreground text-foreground" />
+                      <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                   <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">
