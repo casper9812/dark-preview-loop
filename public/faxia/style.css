@@ -355,3 +355,16 @@ nav p {
     height: 4px;
   }
 }
+
+.details:before {
+  content: "";
+  position: absolute;
+  left: -80px;
+  top: -120px;
+  width: 820px;
+  max-width: 130vw;
+  height: 620px;
+  background: radial-gradient(60% 60% at 25% 45%, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0) 100%);
+  pointer-events: none;
+  z-index: -1;
+}

@@ -139,7 +139,7 @@ function computeLayout() {
   gap = compact ? 8 : 20;
   const padRight = compact ? 14 : 40;
   const padLeft = compact ? 14 : 40;
-  const rowMax = width - padLeft - padRight;
+  const rowMax = compact ? width - padLeft - padRight : Math.min(width - padLeft - padRight, width * 0.55);
   const maxCard = compact ? 92 : 168;
   cardWidth = Math.max(64, Math.min(maxCard, Math.floor((rowMax - (n - 1) * gap) / n)));
   cardHeight = Math.round(cardWidth * 1.35);
