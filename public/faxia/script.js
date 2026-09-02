@@ -58,6 +58,7 @@ let offsetLeft = 700;
 let cardWidth = 200;
 let cardHeight = 300;
 let gap = 40;
+let contentOffset = 100;
 const ease = "sine.inOut";
 let queued = 0;
 let transitioning = false;
@@ -145,6 +146,7 @@ function computeLayout() {
   offsetLeft = width - padRight - n * cardWidth - (n - 1) * gap;
   const paginationSpace = compact ? 62 : 84;
   offsetTop = height - cardHeight - paginationSpace;
+  contentOffset = Math.round(cardHeight * 0.36);
 }
 
 function init() {
@@ -177,7 +179,7 @@ function init() {
     gsap.set(getCardContent(i), {
       x: offsetLeft + 400 + index * (cardWidth + gap),
       zIndex: 40,
-      y: offsetTop + cardHeight - 100,
+      y: offsetTop + cardHeight - contentOffset,
     });
   });
 
@@ -260,7 +262,7 @@ function step() {
         });
         gsap.set(getCardContent(prv), {
           x: xNew,
-          y: offsetTop + cardHeight - 100,
+          y: offsetTop + cardHeight - contentOffset,
           opacity: 1,
           zIndex: 40,
         });
@@ -301,7 +303,7 @@ function step() {
       });
       gsap.to(getCardContent(i), {
         x: offsetLeft + index * (cardWidth + gap),
-        y: offsetTop + cardHeight - 100,
+        y: offsetTop + cardHeight - contentOffset,
         opacity: 1,
         zIndex: 40,
         ease,
@@ -355,7 +357,7 @@ function relayout() {
   rest.forEach((i, index) => {
     const x = offsetLeft + index * (cardWidth + gap);
     gsap.set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 10 });
-    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - 100 });
+    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - contentOffset });
   });
 
   gsap.set("#pagination", { top: offsetTop + cardHeight + 24, left: offsetLeft });
