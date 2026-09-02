@@ -179,6 +179,7 @@ function init() {
     gsap.set(getCardContent(i), {
       x: offsetLeft + 400 + index * (cardWidth + gap),
       zIndex: 40,
+      width: cardWidth,
       y: offsetTop + cardHeight - contentOffset,
     });
   });
@@ -261,6 +262,7 @@ function step() {
           scale: 1,
         });
         gsap.set(getCardContent(prv), {
+          width: cardWidth,
           x: xNew,
           y: offsetTop + cardHeight - contentOffset,
           opacity: 1,
@@ -302,6 +304,7 @@ function step() {
         delay: 0.1 * (index + 1),
       });
       gsap.to(getCardContent(i), {
+        width: cardWidth,
         x: offsetLeft + index * (cardWidth + gap),
         y: offsetTop + cardHeight - contentOffset,
         opacity: 1,
@@ -357,7 +360,7 @@ function relayout() {
   rest.forEach((i, index) => {
     const x = offsetLeft + index * (cardWidth + gap);
     gsap.set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 10 });
-    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - contentOffset });
+    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - contentOffset, width: cardWidth });
   });
 
   gsap.set("#pagination", { top: offsetTop + cardHeight + 24, left: offsetLeft });
