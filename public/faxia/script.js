@@ -134,11 +134,17 @@ function restartIndicator() {
 function computeLayout() {
   const { innerWidth: width, innerHeight: height } = window;
   const n = data.length - 1;
-  gap = 24;
-  cardWidth = Math.max(84, Math.min(190, Math.floor((width - 100 - (n - 1) * gap) / n)));
-  cardHeight = Math.round(cardWidth * 1.4);
-  offsetLeft = width - 40 - n * cardWidth - (n - 1) * gap;
-  offsetTop = height - cardHeight - 48;
+  const compact = width < 900;
+  gap = compact ? 8 : 20;
+  const padRight = compact ? 14 : 40;
+  const padLeft = compact ? 14 : 40;
+  const rowMax = width - padLeft - padRight;
+  const maxCard = compact ? 92 : 168;
+  cardWidth = Math.max(64, Math.min(maxCard, Math.floor((rowMax - (n - 1) * gap) / n)));
+  cardHeight = Math.round(cardWidth * 1.35);
+  offsetLeft = width - padRight - n * cardWidth - (n - 1) * gap;
+  const paginationSpace = compact ? 62 : 84;
+  offsetTop = height - cardHeight - paginationSpace;
 }
 
 function init() {
