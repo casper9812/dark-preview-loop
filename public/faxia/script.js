@@ -368,6 +368,8 @@ function relayout() {
     height: "100vh",
     borderRadius: 0,
     scale: 1,
+    opacity: 1,
+    filter: "blur(0px)",
   });
 
   rest.forEach((i, index) => {
