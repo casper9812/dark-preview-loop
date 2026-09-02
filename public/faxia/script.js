@@ -231,25 +231,30 @@ function step() {
 
     markActiveCard();
 
+    // Cross-fade cinematográfico: la nueva foto aparece ya a pantalla completa
+    // con un leve zoom-out y desenfoque, sin "expandirse" desde la miniatura.
     gsap.set(getCard(prv), { zIndex: 10 });
-    gsap.set(getCard(active), { zIndex: 20 });
-    gsap.to(getCard(prv), { scale: 1.5, ease, duration: 1.2 });
-
-    gsap.to(getCardContent(active), {
-      y: offsetTop + cardHeight - 10,
-      opacity: 0,
-      duration: 0.4,
-      ease,
-    });
-
-    gsap.to(getCard(active), {
+    gsap.set(getCard(active), {
+      zIndex: 20,
       x: 0,
       y: 0,
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
-      ease,
-      duration: 1.2,
+      scale: 1.07,
+      opacity: 0,
+      filter: "blur(10px)",
+    });
+
+    gsap.to(getCardContent(active), { opacity: 0, duration: 0.35, ease });
+    gsap.to(getCard(prv), { scale: 1.06, duration: 2, ease: "power1.out" });
+
+    gsap.to(getCard(active), {
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      ease: "power2.out",
+      duration: 1.4,
       onComplete: () => {
         const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
         gsap.set(getCard(prv), {
@@ -260,7 +265,14 @@ function step() {
           zIndex: 30,
           borderRadius: 10,
           scale: 1,
+          opacity: 1,
+          filter: "blur(0px)",
         });
+        gsap.fromTo(
+          getCard(prv),
+          { y: offsetTop + 26 },
+          { y: offsetTop, duration: 0.6, ease: "power3.out" },
+        );
         gsap.set(getCardContent(prv), {
           width: cardWidth,
           x: xNew,
@@ -290,6 +302,7 @@ function step() {
         }
       },
     });
+
 
     rest.forEach((i, index) => {
       if (i === prv) return;
@@ -355,6 +368,8 @@ function relayout() {
     height: "100vh",
     borderRadius: 0,
     scale: 1,
+    opacity: 1,
+    filter: "blur(0px)",
   });
 
   rest.forEach((i, index) => {

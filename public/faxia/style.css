@@ -95,11 +95,39 @@ nav p {
 
 .card.is-active .card-fill {
   opacity: 1;
+  animation: faxia-drift 22s ease-in-out infinite alternate;
 }
 
 .card.is-active .card-img {
   background-size: contain;
 }
+
+@keyframes faxia-drift {
+  from {
+    transform: scale(1.2) translate3d(-1.5%, -1%, 0);
+  }
+  to {
+    transform: scale(1.35) translate3d(1.5%, 1.5%, 0);
+  }
+}
+
+.card:not(.is-active) .card-img {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
+}
+
+.card:not(.is-active):hover .card-img {
+  transform: scale(1.09);
+  filter: brightness(1.12);
+}
+
+.card:not(.is-active) {
+  transition: box-shadow 0.4s ease;
+}
+
+.card:not(.is-active):hover {
+  box-shadow: 0 14px 34px 4px rgba(0, 0, 0, 0.75);
+}
+
 
 .card-content {
   position: absolute;
