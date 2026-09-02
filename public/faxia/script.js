@@ -58,6 +58,7 @@ let offsetLeft = 700;
 let cardWidth = 200;
 let cardHeight = 300;
 let gap = 40;
+let contentOffset = 100;
 const ease = "sine.inOut";
 let queued = 0;
 let transitioning = false;
@@ -134,11 +135,18 @@ function restartIndicator() {
 function computeLayout() {
   const { innerWidth: width, innerHeight: height } = window;
   const n = data.length - 1;
-  gap = 24;
-  cardWidth = Math.max(84, Math.min(190, Math.floor((width - 100 - (n - 1) * gap) / n)));
-  cardHeight = Math.round(cardWidth * 1.4);
-  offsetLeft = width - 40 - n * cardWidth - (n - 1) * gap;
-  offsetTop = height - cardHeight - 48;
+  const compact = width < 900;
+  gap = compact ? 8 : 20;
+  const padRight = compact ? 14 : 40;
+  const padLeft = compact ? 14 : 40;
+  const rowMax = compact ? width - padLeft - padRight : Math.min(width - padLeft - padRight, width * 0.55);
+  const maxCard = compact ? 92 : 168;
+  cardWidth = Math.max(64, Math.min(maxCard, Math.floor((rowMax - (n - 1) * gap) / n)));
+  cardHeight = Math.round(cardWidth * 1.35);
+  offsetLeft = width - padRight - n * cardWidth - (n - 1) * gap;
+  const paginationSpace = compact ? 62 : 84;
+  offsetTop = height - cardHeight - paginationSpace;
+  contentOffset = Math.round(cardHeight * 0.36);
 }
 
 function init() {
@@ -171,7 +179,8 @@ function init() {
     gsap.set(getCardContent(i), {
       x: offsetLeft + 400 + index * (cardWidth + gap),
       zIndex: 40,
-      y: offsetTop + cardHeight - 100,
+      width: cardWidth,
+      y: offsetTop + cardHeight - contentOffset,
     });
   });
 
@@ -253,8 +262,9 @@ function step() {
           scale: 1,
         });
         gsap.set(getCardContent(prv), {
+          width: cardWidth,
           x: xNew,
-          y: offsetTop + cardHeight - 100,
+          y: offsetTop + cardHeight - contentOffset,
           opacity: 1,
           zIndex: 40,
         });
@@ -294,8 +304,9 @@ function step() {
         delay: 0.1 * (index + 1),
       });
       gsap.to(getCardContent(i), {
+        width: cardWidth,
         x: offsetLeft + index * (cardWidth + gap),
-        y: offsetTop + cardHeight - 100,
+        y: offsetTop + cardHeight - contentOffset,
         opacity: 1,
         zIndex: 40,
         ease,
@@ -349,7 +360,7 @@ function relayout() {
   rest.forEach((i, index) => {
     const x = offsetLeft + index * (cardWidth + gap);
     gsap.set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 10 });
-    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - 100 });
+    gsap.set(getCardContent(i), { x, y: offsetTop + cardHeight - contentOffset, width: cardWidth });
   });
 
   gsap.set("#pagination", { top: offsetTop + cardHeight + 24, left: offsetLeft });
