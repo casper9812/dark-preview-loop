@@ -290,3 +290,68 @@ nav p {
   background-color: #fff;
   z-index: 100;
 }
+
+.content-title-1,
+.content-title-2 {
+  font-size: clamp(11px, 1.2vw, 18px);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.content-place {
+  font-size: clamp(9px, 0.9vw, 13px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+  .details {
+    top: 120px;
+    left: 24px;
+    right: 24px;
+  }
+  .title-box-1,
+  .title-box-2 {
+    height: 58px;
+  }
+  .title-1,
+  .title-2 {
+    font-size: 44px;
+  }
+  .place-box .text {
+    font-size: 16px;
+  }
+  .desc {
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  .cta {
+    width: auto;
+    margin-top: 18px;
+  }
+  .arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+  .dots {
+    margin-left: 16px;
+    gap: 6px;
+  }
+  .dot {
+    width: 18px;
+  }
+  .dot.is-current {
+    width: 28px;
+  }
+  .content-start {
+    width: 20px;
+    height: 4px;
+  }
+}
