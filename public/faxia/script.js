@@ -231,8 +231,7 @@ function step() {
 
     markActiveCard();
 
-    // Cross-fade cinematográfico: la nueva foto aparece ya a pantalla completa
-    // con un leve zoom-out y desenfoque, sin "expandirse" desde la miniatura.
+    // Cross-fade limpio: sin filtros costosos (blur) para que no se "trabe".
     gsap.set(getCard(prv), { zIndex: 10 });
     gsap.set(getCard(active), {
       zIndex: 20,
@@ -241,20 +240,22 @@ function step() {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
-      scale: 1.07,
+      scale: 1.03,
       opacity: 0,
-      filter: "blur(10px)",
+      filter: "none",
+      force3D: true,
     });
 
-    gsap.to(getCardContent(active), { opacity: 0, duration: 0.35, ease });
-    gsap.to(getCard(prv), { scale: 1.06, duration: 2, ease: "power1.out" });
+    gsap.to(getCardContent(active), { opacity: 0, duration: 0.3, ease });
+    gsap.to(getCard(prv), { scale: 1.02, duration: 1.2, ease: "power1.out" });
 
     gsap.to(getCard(active), {
       opacity: 1,
       scale: 1,
-      filter: "blur(0px)",
       ease: "power2.out",
-      duration: 1.4,
+      duration: 1,
+      force3D: true,
+
       onComplete: () => {
         const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
         gsap.set(getCard(prv), {
