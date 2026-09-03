@@ -406,6 +406,8 @@ function Index() {
         </div>
       </section>
 
+      <ComunidadSection />
+
       {/* Opiniones */}
       <section id="opiniones" className="py-24 sm:py-32">
         <div className="mx-auto max-w-6xl px-6">
@@ -476,7 +478,7 @@ function Index() {
             </a>
           </div>
           <Reveal delay={150}>
-            <FaxiaMap />
+            <LocationShowcase />
           </Reveal>
         </div>
       </section>
