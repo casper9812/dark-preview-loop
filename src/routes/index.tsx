@@ -162,7 +162,7 @@ const reviews = [
 function Badge({ children }: { children: string }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-      <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
+      <span className="h-1.5 w-1.5 rounded-full brand-gradient" />
       {children}
     </span>
   );
@@ -205,14 +205,35 @@ function Logo({ inverted = false }: { inverted?: boolean }) {
     <span
       className={`text-xl font-semibold tracking-[0.35em] ${inverted ? "text-background" : "text-foreground"}`}
     >
-      FA<span className="text-muted-foreground">X</span>IA
+      FA<span className="brand-text">X</span>IA
     </span>
   );
+}
+
+function ScrollProgress() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const onScroll = () => {
+      const el = ref.current;
+      if (!el) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      el.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+  return <div ref={ref} className="scroll-progress" style={{ width: 0 }} />;
 }
 
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ScrollProgress />
       {/* Floating nav */}
       <header className="fixed inset-x-0 top-4 z-50 px-4">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 rounded-full border border-border bg-background/80 px-6 py-3 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl">
@@ -224,7 +245,7 @@ function Index() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+                className="brand-underline text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
               >
                 {l.label}
               </a>
@@ -285,8 +306,8 @@ function Index() {
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="h-full rounded-2xl border border-border p-7 transition-all duration-300 hover:-translate-y-2 hover:border-foreground/40 hover:shadow-[0_24px_50px_-30px_rgba(0,0,0,0.4)]">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary">
+              <div className="brand-glow group h-full rounded-2xl border border-border p-7">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-8 text-lg font-semibold leading-snug">{title}</h3>
@@ -309,7 +330,7 @@ function Index() {
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 150}>
-              <article className="group overflow-hidden rounded-3xl border border-border transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)]">
+              <article className="brand-glow group overflow-hidden rounded-3xl border border-border">
                 <img
                   src={m.image}
                   alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
@@ -340,7 +361,7 @@ function Index() {
             {plans.map((p, i) => (
               <Reveal key={p.title} delay={i * 120}>
               <div
-                className={`h-full rounded-3xl border p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_70px_-40px_rgba(0,0,0,0.45)] ${
+                className={`brand-glow h-full rounded-3xl border p-8 ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background hover:border-foreground/40"

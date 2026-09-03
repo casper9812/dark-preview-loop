@@ -88,7 +88,7 @@ export function ComunidadSection() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] [background-size:26px_26px]" />
       <div ref={sectionRef} className="relative mx-auto max-w-6xl px-6">
         <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-primary-foreground/70">
-          <span className="h-1.5 w-1.5 animate-ping rounded-full bg-primary-foreground" />
+          <span className="h-1.5 w-1.5 animate-ping rounded-full brand-gradient" />
           Comunidad
         </span>
         <h2 className="mt-8 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
@@ -117,9 +117,9 @@ export function ComunidadSection() {
                       loading="lazy"
                       width={1280}
                       height={960}
-                      className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                      className="h-full w-full object-cover transition-all duration-[1200ms] ease-out group-hover:scale-110 group-hover:saturate-[1.15]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
                     <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur transition-transform duration-500 group-hover:-translate-y-1">
                       <Icon className="h-3.5 w-3.5" />
                       {tag}
@@ -134,7 +134,7 @@ export function ComunidadSection() {
                       href={WHATSAPP}
                       target="_blank"
                       rel="noopener"
-                      className="mt-7 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-primary-foreground transition-all duration-300 hover:gap-4"
+                      className="mt-7 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-brand transition-all duration-300 hover:gap-4"
                     >
                       Únete al club
                       <ArrowUpRight className="h-4 w-4" />
