@@ -172,7 +172,47 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 @layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-float-soft {
+    animation: float-soft 6s ease-in-out infinite;
+  }
+
+  .hover-lift {
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 70px -45px rgba(0, 0, 0, 0.6);
+  }
+
   .animate-marquee {
     animation: marquee 40s linear infinite;
   }
@@ -188,49 +228,4 @@
   .reveal.is-visible {
     animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-}
-
-/* FAXIA map marker */
-.faxia-marker {
-  position: relative;
-}
-
-.faxia-marker-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  background-color: #111111;
-  border: 3px solid #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-}
-
-.faxia-marker-pulse {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  background-color: rgba(17, 17, 17, 0.25);
-  animation: faxia-pulse 2s ease-out infinite;
-}
-
-@keyframes faxia-pulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0.4);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.6);
-    opacity: 0;
-  }
-}
-
-.leaflet-container {
-  font-family: inherit;
 }
