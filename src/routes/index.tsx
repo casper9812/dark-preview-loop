@@ -19,7 +19,8 @@ import {
 
 import teamXimena from "@/assets/WhatsApp_Image_2026-08-26_at_21.37.34_1.jpeg.asset.json";
 import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.asset.json";
-import { FaxiaMap } from "@/components/FaxiaMap";
+import { LocationShowcase } from "@/components/LocationShowcase";
+import { ComunidadSection } from "@/components/ComunidadSection";
 
 const INSTAGRAM = "https://www.instagram.com/faxia.salud/";
 const FACEBOOK = "https://www.facebook.com/faxia.salud";
@@ -53,6 +54,7 @@ const navLinks = [
   { label: "Nosotros", href: "#nosotros" },
   { label: "Equipo", href: "#equipo" },
   { label: "Costos", href: "#costos" },
+  { label: "Comunidad", href: "#comunidad" },
   { label: "Opiniones", href: "#opiniones" },
   { label: "Ubicación", href: "#ubicacion" },
   { label: "Contacto", href: "#contacto" },
