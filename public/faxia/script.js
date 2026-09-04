@@ -110,13 +110,18 @@ function buildDots() {
   });
 }
 
+let pendingTarget = null;
+
 function goTo(index) {
   const current = order.indexOf(index);
   if (current <= 0) return;
   autoplay = false;
   restartIndicator();
-  queued += current;
-  if (!transitioning) step();
+  if (transitioning) {
+    pendingTarget = index;
+    return;
+  }
+  step(current);
 }
 
 function next() {
@@ -208,10 +213,12 @@ function init() {
   window.addEventListener("resize", onResize);
 }
 
-function step() {
+function step(shift = 1) {
   return new Promise((resolve) => {
     transitioning = true;
-    order.push(order.shift());
+    const prv = order[0];
+    const k = ((shift % order.length) + order.length) % order.length || 1;
+    order = [...order.slice(k), ...order.slice(0, k)];
     detailsEven = !detailsEven;
 
     const detailsActive = detailsEven ? "#details-even" : "#details-odd";
@@ -227,7 +234,7 @@ function step() {
     gsap.set(detailsInactive, { zIndex: 12 });
 
     const [active, ...rest] = order;
-    const prv = rest[rest.length - 1];
+    const prvIndex = rest.indexOf(prv);
 
     markActiveCard();
 
@@ -247,7 +254,6 @@ function step() {
     });
 
     gsap.to(getCardContent(active), { opacity: 0, duration: 0.3, ease });
-    gsap.to(getCard(prv), { scale: 1.02, duration: 1.2, ease: "power1.out" });
 
     gsap.to(getCard(active), {
       opacity: 1,
@@ -257,7 +263,7 @@ function step() {
       force3D: true,
 
       onComplete: () => {
-        const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
+        const xNew = offsetLeft + prvIndex * (cardWidth + gap);
         gsap.set(getCard(prv), {
           x: xNew,
           y: offsetTop,
@@ -294,10 +300,16 @@ function step() {
           relayout();
         }
 
-        if (queued > 0) queued -= 1;
-        if (queued > 0) {
-          step();
-        } else if (!autoplay) {
+        if (pendingTarget !== null) {
+          const target = pendingTarget;
+          pendingTarget = null;
+          const pos = order.indexOf(target);
+          if (pos > 0) {
+            step(pos);
+            return;
+          }
+        }
+        if (!autoplay) {
           autoplay = true;
           loop();
         }
@@ -307,6 +319,9 @@ function step() {
 
     rest.forEach((i, index) => {
       if (i === prv) return;
+      if (index > prvIndex) {
+        gsap.set(getCard(i), { zIndex: 30 });
+      }
       gsap.set(getCard(i), { zIndex: 30 });
       gsap.to(getCard(i), {
         x: offsetLeft + index * (cardWidth + gap),
