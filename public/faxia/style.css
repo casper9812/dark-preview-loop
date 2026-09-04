@@ -21,7 +21,7 @@ body {
   top: 0;
   height: 2px;
   z-index: 60;
-  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffb454 55%, #ffffff 100%);
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #5fb3ac 55%, #ffffff 100%);
   pointer-events: none;
 }
 
@@ -244,8 +244,8 @@ nav p {
 }
 
 .discover:hover {
-  background-color: #ffb454;
-  border-color: #ffb454;
+  background-color: #5fb3ac;
+  border-color: #5fb3ac;
   color: #101010;
 }
 
@@ -270,7 +270,7 @@ nav p {
 }
 
 .arrow:hover {
-  border-color: #ffb454;
+  border-color: #5fb3ac;
   transform: scale(1.08);
 }
 
@@ -309,7 +309,7 @@ nav p {
 }
 
 .dot.is-current {
-  background-color: #ffb454;
+  background-color: #5fb3ac;
   width: 46px;
 }
 
