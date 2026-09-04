@@ -205,7 +205,7 @@ function Logo({ inverted = false }: { inverted?: boolean }) {
     <span
       className={`text-xl font-semibold tracking-[0.35em] ${inverted ? "text-background" : "text-foreground"}`}
     >
-      FA<span className="brand-text">X</span>IA
+      FAXIA
     </span>
   );
 }
