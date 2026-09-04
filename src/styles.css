@@ -306,3 +306,94 @@
     background-image: linear-gradient(90deg, var(--brand), var(--brand-2));
   }
 }
+
+@keyframes shine-sweep {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@layer utilities {
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-shine::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 45%;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklch, var(--brand) 22%, transparent),
+      transparent
+    );
+    transform: translateX(-120%) skewX(-18deg);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .card-shine:hover::before {
+    opacity: 1;
+    animation: shine-sweep 0.9s ease-out;
+  }
+
+  .reveal-left.is-visible {
+    animation: reveal-left 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .reveal-right.is-visible {
+    animation: reveal-right 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 2.4s ease-out infinite;
+  }
+
+  .magnetic {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), letter-spacing 0.35s ease;
+  }
+
+  .magnetic:hover {
+    transform: translateY(-3px) scale(1.03);
+  }
+}

@@ -76,10 +76,9 @@ nav p {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: blur(26px) brightness(0.45) saturate(1.45);
-  transform: scale(1.18) translateZ(0);
-  opacity: 0;
-  transition: opacity 0.8s ease;
+  filter: brightness(0.38) saturate(1.15) contrast(1.05);
+  transform: scale(1.12) translateZ(0);
+  opacity: 1;
   z-index: 1;
 }
 
@@ -94,10 +93,6 @@ nav p {
 
 .card.is-active {
   cursor: default;
-}
-
-.card.is-active .card-fill {
-  opacity: 1;
 }
 
 .card.is-active .card-img {
