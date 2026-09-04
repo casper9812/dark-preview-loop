@@ -306,7 +306,7 @@ function Index() {
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="brand-glow group h-full rounded-2xl border border-border p-7">
+              <div className="brand-glow card-shine group h-full rounded-2xl border border-border p-7">
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
@@ -330,7 +330,7 @@ function Index() {
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 150}>
-              <article className="brand-glow group overflow-hidden rounded-3xl border border-border">
+              <article className="brand-glow card-shine group overflow-hidden rounded-3xl border border-border">
                 <img
                   src={m.image}
                   alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
@@ -361,7 +361,7 @@ function Index() {
             {plans.map((p, i) => (
               <Reveal key={p.title} delay={i * 120}>
               <div
-                className={`brand-glow h-full rounded-3xl border p-8 ${
+                className={`brand-glow card-shine h-full rounded-3xl border p-8 ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background hover:border-foreground/40"
