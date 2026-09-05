@@ -373,8 +373,7 @@ function Index() {
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="spotlight brand-glow card-shine group h-full rounded-2xl border border-border p-7">
-
+              <div className="glow-card brand-glow card-shine group h-full rounded-2xl border border-border p-7">
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
