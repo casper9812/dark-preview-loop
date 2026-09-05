@@ -24,7 +24,7 @@ import { LocationShowcase } from "@/components/LocationShowcase";
 import { ComunidadSection } from "@/components/ComunidadSection";
 
 const INSTAGRAM = "https://www.instagram.com/faxia.salud/";
-const FACEBOOK = "https://www.facebook.com/faxia.salud";
+const FACEBOOK = "https://www.facebook.com/share/1BDzA6DffY/?mibextid=wwXIfr";
 const MAPS =
   "https://www.google.com/maps/search/?api=1&query=Av.+de+las+Aves+229,+Villas+de+Pachuca,+42083+Pachuca+de+Soto,+Hidalgo";
 const WHATSAPP = "https://wa.me/527715037762";
