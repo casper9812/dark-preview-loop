@@ -19,6 +19,7 @@ import {
 
 import teamXimena from "@/assets/WhatsApp_Image_2026-08-26_at_21.37.34_1.jpeg.asset.json";
 import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.asset.json";
+import faxiaTerapia from "@/assets/faxia-terapia.jpeg.asset.json";
 import { LocationShowcase } from "@/components/LocationShowcase";
 import { ComunidadSection } from "@/components/ComunidadSection";
 
