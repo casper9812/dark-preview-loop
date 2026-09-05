@@ -368,10 +368,24 @@ function Index() {
           funcional en un espacio pensado para tu recuperación. Sin prisas, sin recetas genéricas: un
           proceso claro hasta que vuelvas a moverte sin límites.
         </p>
+        <Reveal className="mt-14">
+          <figure className="spotlight group relative overflow-hidden rounded-3xl border border-border">
+            <img
+              src={faxiaTerapia.url}
+              alt="Fisioterapeutas de FAXIA aplicando terapia manual a un paciente"
+              loading="lazy"
+              className="h-auto w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.02]"
+            />
+            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-sm text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+              Terapia manual y movilización asistida en nuestro consultorio de Villas de Pachuca.
+            </figcaption>
+          </figure>
+        </Reveal>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="brand-glow card-shine group h-full rounded-2xl border border-border p-7">
+              <div className="spotlight brand-glow card-shine group h-full rounded-2xl border border-border p-7">
+
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
