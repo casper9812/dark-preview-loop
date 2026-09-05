@@ -325,23 +325,7 @@ function NavBar() {
   );
 }
 
-function useSpotlight() {
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      const card = target?.closest?.(".spotlight") as HTMLElement | null;
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
-      card.style.setProperty("--my", `${e.clientY - r.top}px`);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-}
-
 function Index() {
-  useSpotlight();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <ScrollProgress />
