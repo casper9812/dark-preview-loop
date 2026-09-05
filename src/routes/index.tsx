@@ -263,7 +263,7 @@ function NavBar() {
   return (
     <header className={`fixed inset-x-0 z-50 px-4 transition-all duration-500 ${scrolled ? "top-2" : "top-4"}`}>
       <nav
-        className={`mx-auto flex max-w-6xl items-center justify-between gap-6 rounded-full border transition-all duration-500 ${
+        className={`nav-shell mx-auto flex max-w-6xl items-center justify-between gap-6 rounded-full border transition-all duration-500 ${
           scrolled
             ? "border-foreground/15 bg-background/70 px-5 py-2 shadow-[0_18px_60px_-28px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
             : "border-border bg-background/80 px-6 py-3 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl"
