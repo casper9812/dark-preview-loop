@@ -397,7 +397,7 @@ function Index() {
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 150}>
-              <article className="spotlight brand-glow card-shine group overflow-hidden rounded-3xl border border-border">
+              <article className="glow-card brand-glow card-shine group overflow-hidden rounded-3xl border border-border">
                 <img
                   src={m.image}
                   alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
@@ -428,7 +428,7 @@ function Index() {
             {plans.map((p, i) => (
               <Reveal key={p.title} delay={i * 120}>
               <div
-                className={`spotlight brand-glow card-shine h-full rounded-3xl border p-8 ${
+                className={`glow-card brand-glow card-shine h-full rounded-3xl border p-8 ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background hover:border-foreground/40"
