@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Activity,
@@ -19,6 +19,7 @@ import {
 
 import teamXimena from "@/assets/WhatsApp_Image_2026-08-26_at_21.37.34_1.jpeg.asset.json";
 import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.asset.json";
+import faxiaTerapia from "@/assets/faxia-terapia.jpeg.asset.json";
 import { LocationShowcase } from "@/components/LocationShowcase";
 import { ComunidadSection } from "@/components/ComunidadSection";
 
@@ -230,58 +231,122 @@ function ScrollProgress() {
   return <div ref={ref} className="scroll-progress" style={{ width: 0 }} />;
 }
 
-function Index() {
+function NavBar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const ids = navLinks.map((l) => l.href.slice(1));
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { threshold: [0.25, 0.5], rootMargin: "-20% 0px -40% 0px" }
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <ScrollProgress />
-      {/* Floating nav */}
-      <header className="fixed inset-x-0 top-4 z-50 px-4">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 rounded-full border border-border bg-background/80 px-6 py-3 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-          <a href="#top" aria-label="FAXIA Fisioterapia">
-            <Logo />
-          </a>
-          <div className="hidden items-center gap-7 lg:flex">
-            {navLinks.map((l) => (
+    <header className={`fixed inset-x-0 z-50 px-4 transition-all duration-500 ${scrolled ? "top-2" : "top-4"}`}>
+      <nav
+        className={`mx-auto flex max-w-6xl items-center justify-between gap-6 rounded-full border transition-all duration-500 ${
+          scrolled
+            ? "border-foreground/15 bg-background/70 px-5 py-2 shadow-[0_18px_60px_-28px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+            : "border-border bg-background/80 px-6 py-3 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+        }`}
+      >
+        <a href="#top" aria-label="FAXIA Fisioterapia" className="magnetic">
+          <Logo />
+        </a>
+        <div className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((l) => {
+            const isActive = active === l.href.slice(1);
+            return (
               <a
                 key={l.href}
                 href={l.href}
-                className="brand-underline text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+                className={`nav-pill relative rounded-full px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
               >
-                {l.label}
+                <span className="relative z-10 inline-flex items-center gap-2">
+                  {isActive && <span className="h-1.5 w-1.5 rounded-full bg-brand animate-pulse-ring" />}
+                  {l.label}
+                </span>
               </a>
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href={INSTAGRAM}
-              target="_blank"
-              rel="noopener"
-              aria-label="Instagram"
-              className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
-            <a
-              href={FACEBOOK}
-              target="_blank"
-              rel="noopener"
-              aria-label="Facebook"
-              className="hidden h-9 w-9 place-items-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary sm:grid"
-            >
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noopener"
-              className="inline-flex items-center gap-2 magnetic rounded-full bg-primary px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-primary-foreground"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Agenda
-            </a>
-          </div>
-        </nav>
-      </header>
+            );
+          })}
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href={INSTAGRAM}
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+            className="grid h-9 w-9 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+          >
+            <Instagram className="h-4 w-4" />
+          </a>
+          <a
+            href={FACEBOOK}
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+            className="hidden h-9 w-9 place-items-center rounded-full border border-border text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-brand hover:text-brand sm:grid"
+          >
+            <Facebook className="h-4 w-4" />
+          </a>
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 magnetic animate-pulse-ring rounded-full bg-primary px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] text-primary-foreground"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Agenda
+          </a>
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+function useSpotlight() {
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const card = target?.closest?.(".spotlight") as HTMLElement | null;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+}
+
+function Index() {
+  useSpotlight();
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <ScrollProgress />
+      <NavBar />
+
 
       {/* Hero: cinematic carousel */}
       <section id="top" className="relative h-screen w-full overflow-hidden bg-[#1a1a1a]">
@@ -303,10 +368,24 @@ function Index() {
           funcional en un espacio pensado para tu recuperación. Sin prisas, sin recetas genéricas: un
           proceso claro hasta que vuelvas a moverte sin límites.
         </p>
+        <Reveal className="mt-14">
+          <figure className="spotlight group relative overflow-hidden rounded-3xl border border-border">
+            <img
+              src={faxiaTerapia.url}
+              alt="Fisioterapeutas de FAXIA aplicando terapia manual a un paciente"
+              loading="lazy"
+              className="h-auto w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.02]"
+            />
+            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-sm text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+              Terapia manual y movilización asistida en nuestro consultorio de Villas de Pachuca.
+            </figcaption>
+          </figure>
+        </Reveal>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="brand-glow card-shine group h-full rounded-2xl border border-border p-7">
+              <div className="spotlight brand-glow card-shine group h-full rounded-2xl border border-border p-7">
+
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
@@ -330,7 +409,7 @@ function Index() {
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 150}>
-              <article className="brand-glow card-shine group overflow-hidden rounded-3xl border border-border">
+              <article className="spotlight brand-glow card-shine group overflow-hidden rounded-3xl border border-border">
                 <img
                   src={m.image}
                   alt={`${m.name}, ${m.role} en FAXIA Fisioterapia`}
@@ -361,7 +440,7 @@ function Index() {
             {plans.map((p, i) => (
               <Reveal key={p.title} delay={i * 120}>
               <div
-                className={`brand-glow card-shine h-full rounded-3xl border p-8 ${
+                className={`spotlight brand-glow card-shine h-full rounded-3xl border p-8 ${
                   p.dark
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-background hover:border-foreground/40"
