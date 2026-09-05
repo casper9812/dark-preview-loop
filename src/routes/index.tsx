@@ -360,27 +360,32 @@ function Index() {
       {/* Nosotros */}
       <section id="nosotros" className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
         <Badge>Acerca de FAXIA</Badge>
-        <h2 className="mt-8 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
-          Rehabilitación clínica con estándar prémium.
-        </h2>
-        <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground">
-          En FAXIA Fisioterapia combinamos evaluación precisa, terapia manual avanzada y entrenamiento
-          funcional en un espacio pensado para tu recuperación. Sin prisas, sin recetas genéricas: un
-          proceso claro hasta que vuelvas a moverte sin límites.
-        </p>
-        <Reveal className="mt-14">
-          <figure className="spotlight group relative overflow-hidden rounded-3xl border border-border">
-            <img
-              src={faxiaTerapia.url}
-              alt="Fisioterapeutas de FAXIA aplicando terapia manual a un paciente"
-              loading="lazy"
-              className="h-auto w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.02]"
-            />
-            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-6 text-sm text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-              Terapia manual y movilización asistida en nuestro consultorio de Villas de Pachuca.
-            </figcaption>
-          </figure>
-        </Reveal>
+        <div className="mt-8 grid items-center gap-12 lg:grid-cols-[1.35fr_1fr]">
+          <div>
+            <h2 className="max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+              Rehabilitación clínica con estándar prémium.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              En FAXIA Fisioterapia combinamos evaluación precisa, terapia manual avanzada y entrenamiento
+              funcional en un espacio pensado para tu recuperación. Sin prisas, sin recetas genéricas: un
+              proceso claro hasta que vuelvas a moverte sin límites.
+            </p>
+          </div>
+          <Reveal className="reveal-right">
+            <figure className="group relative mx-auto max-w-[320px] animate-float-soft overflow-hidden rounded-[2rem] border border-border shadow-[0_30px_70px_-45px_rgba(0,0,0,0.6)] transition-transform duration-700 ease-out hover:-translate-y-2 hover:rotate-[-1deg]">
+              <img
+                src={faxiaTerapia.url}
+                alt="Fisioterapeutas de FAXIA aplicando terapia manual a un paciente"
+                loading="lazy"
+                className="h-auto w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+              />
+              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-3 bg-gradient-to-t from-black/75 to-transparent p-5 text-xs leading-relaxed text-white opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                Terapia manual y movilización asistida en Villas de Pachuca.
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
