@@ -22,6 +22,7 @@ import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.ass
 import faxiaTerapia from "@/assets/faxia-terapia.jpeg.asset.json";
 import { LocationShowcase } from "@/components/LocationShowcase";
 import { ComunidadSection } from "@/components/ComunidadSection";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 
 const INSTAGRAM = "https://www.instagram.com/faxia.salud/";
 const FACEBOOK = "https://www.facebook.com/share/1BDzA6DffY/?mibextid=wwXIfr";
