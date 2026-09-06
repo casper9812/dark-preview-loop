@@ -22,6 +22,7 @@ import teamAntonio from "@/assets/WhatsApp_Image_2026-08-19_at_16.05.32.jpeg.ass
 import faxiaTerapia from "@/assets/faxia-terapia.jpeg.asset.json";
 import { LocationShowcase } from "@/components/LocationShowcase";
 import { ComunidadSection } from "@/components/ComunidadSection";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 
 const INSTAGRAM = "https://www.instagram.com/faxia.salud/";
 const FACEBOOK = "https://www.facebook.com/share/1BDzA6DffY/?mibextid=wwXIfr";
@@ -327,7 +328,8 @@ function NavBar() {
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen text-foreground">
+      <AnimatedBackground />
       <ScrollProgress />
       <NavBar />
 
@@ -373,7 +375,7 @@ function Index() {
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pillars.map(({ icon: Icon, title, desc }, i) => (
             <Reveal key={title} delay={i * 120}>
-              <div className="glow-card brand-glow card-shine group h-full rounded-2xl border border-border p-7">
+              <div className="glow-card brand-glow card-shine group h-full rounded-2xl border border-border bg-background/80 p-7 backdrop-blur-sm">
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-brand/15 group-hover:text-brand">
                   <Icon className="h-5 w-5" />
                 </div>
@@ -518,7 +520,7 @@ function Index() {
             {[...reviews, ...reviews].map((r, idx) => (
               <figure
                 key={`${r.name}-${idx}`}
-                className="flex w-[300px] shrink-0 flex-col justify-between rounded-3xl border border-border p-7 transition-colors duration-300 hover:border-foreground/40 sm:w-[340px]"
+                className="flex w-[300px] shrink-0 flex-col justify-between rounded-3xl border border-border bg-background/80 p-7 backdrop-blur-sm transition-colors duration-300 hover:border-foreground/40 sm:w-[340px]"
               >
                 <div>
                   <Quote className="h-6 w-6 text-muted-foreground/50" />

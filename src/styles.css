@@ -493,3 +493,56 @@
     opacity: 0.55;
   }
 }
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(7%, -9%) scale(1.07);
+  }
+  50% {
+    transform: translate(-4%, 6%) scale(0.97);
+  }
+  75% {
+    transform: translate(5%, 4%) scale(1.04);
+  }
+}
+
+@keyframes aurora-drift-reverse {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-8%, 7%) scale(0.98);
+  }
+  50% {
+    transform: translate(6%, -6%) scale(1.06);
+  }
+  75% {
+    transform: translate(-5%, -4%) scale(1.02);
+  }
+}
+
+@keyframes slow-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@utility animate-aurora {
+  animation: aurora-drift 26s ease-in-out infinite;
+}
+
+@utility animate-aurora-reverse {
+  animation: aurora-drift-reverse 34s ease-in-out infinite;
+}
+
+@utility animate-slow-rotate {
+  animation: slow-rotate 90s linear infinite;
+}
