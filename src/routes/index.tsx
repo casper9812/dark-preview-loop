@@ -328,7 +328,8 @@ function NavBar() {
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen text-foreground">
+      <AnimatedBackground />
       <ScrollProgress />
       <NavBar />
 
